@@ -13,8 +13,8 @@ document.getElementById('add-player-btn').addEventListener('click', function() {
     var buttons = ['dead', 'killer', 'police', 'doctor'];
     for (var i = 0; i < buttons.length; i++) {
       var button = document.createElement('button');
-      button.textContent = buttons[i];
-      button.className = 'status-btn';
+      button.textContent = '';
+      button.className = buttons[i] + '-btn';
       
       statusCell.appendChild(button);
     }
@@ -24,7 +24,7 @@ document.getElementById('add-player-btn').addEventListener('click', function() {
     document.querySelector('tbody').appendChild(row);
     
     // Add event listener to each status button
-    var statusButtons = row.getElementsByClassName('status-btn');
+    var statusButtons = row.getElementsByTagName('button');
     for (var j = 0; j < statusButtons.length; j++) {
       statusButtons[j].addEventListener('click', toggleStatus);
     }
@@ -32,15 +32,22 @@ document.getElementById('add-player-btn').addEventListener('click', function() {
 });
 
 function toggleStatus() {
-  var colors = ['red', 'yellow', 'green', 'blue'];
   var currentColor = this.style.backgroundColor;
-  var index = colors.indexOf(currentColor);
+  var className = this.className.split('-')[0];
   
-  if (index === -1 || index === colors.length - 1) {
-    // Set first color
-    this.style.backgroundColor = colors[0];
+  if (currentColor === 'gray') {
+    // Set corresponding color
+    if (className === 'dead') {
+      this.style.backgroundColor = 'red';
+    } else if (className === 'killer') {
+      this.style.backgroundColor = 'yellow';
+    } else if (className === 'police') {
+      this.style.backgroundColor = 'green';
+    } else if (className === 'doctor') {
+      this.style.backgroundColor = 'blue';
+    }
   } else {
-    // Set next color
-    this.style.backgroundColor = colors[index + 1];
+    // Set back to gray
+    this.style.backgroundColor = 'gray';
   }
 }
